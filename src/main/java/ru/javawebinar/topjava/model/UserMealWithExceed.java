@@ -9,6 +9,16 @@ import java.time.LocalDateTime;
 public class UserMealWithExceed {
     private final LocalDateTime dateTime;
 
+    @Override
+    public String toString() {
+        return "UserMealWithExceed{" +
+                "dateTime=" + dateTime +
+                ", description='" + description + '\'' +
+                ", calories=" + calories +
+                ", exceed=" + exceed +
+                '}';
+    }
+
     private final String description;
 
     private final int calories;
