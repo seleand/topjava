@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -21,29 +22,31 @@ import java.time.LocalTime;
 })
 
 @Entity
-@Table(name="meals")
+@Table(name = "meals", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_time"}, name = "meals_unique_user_datetime_idx")})
 public class Meal extends BaseEntity {
 
     public static final String DELETE = "Meal.DELETE";
     public static final String ALL_SORTED = "Meal.ALL_SORTED";
     public static final String ALL_BETWEEN = "Meal.ALL_BETWEEN";
-    @Column(name = "datetime", nullable = false)
+    public static final String GET = "Meal.GET";
+
+    @Column(name = "date_time", nullable = false)
     @NotEmpty
     private LocalDateTime dateTime;
 
-    public static final String GET = "Meal.GET";
-
-    @Column(name = "datetime", nullable = false)
+    @Column(name = "description", nullable = false)
     @NotEmpty
     private String description;
 
     @Column(name = "calories", nullable = false)
     @NotEmpty
-    @Digits(fraction = 0, integer = 4)
+    @Size(min = 10, max = 5000)
+//    @Digits(fraction = 0, integer = 4)
     private int calories;
 
-    @CollectionTable(name = "users", joinColumns = @JoinColumn(name = "id"))
-    @Column(name = "name")
+//    @CollectionTable(name = "users", joinColumns = @JoinColumn(name = "id"))
+//    @Column(name = "name")
+    @JoinColumn(name = "user_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
